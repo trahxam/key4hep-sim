@@ -53,7 +53,8 @@ k4run clicRec_e4h_input.py -n $NEV --EventDataSvc.input out_sim_edm4hep.root --P
 #Copy the outputs
 cp out_reco_edm4hep.root reco_${SAMPLE}_${NUM}.root
 cp out.hepmc sim_${SAMPLE}_${NUM}.hepmc
-cp reco_${SAMPLE}_${NUM}.root $FULLOUTDIR/
-cp sim_${SAMPLE}_${NUM}.hepmc $FULLOUTDIR/
+cp reco_${SAMPLE}_${NUM}.root $FULLOUTDIR/root/
+bzip2 sim_${SAMPLE}_${NUM}.hepmc
+cp sim_${SAMPLE}_${NUM}.hepmc.bz2 $FULLOUTDIR/sim/
 
 rm -Rf $WORKDIR
