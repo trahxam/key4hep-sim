@@ -15,7 +15,7 @@ SAMPLE=$2 #main card
 
 #Change these as needed
 OUTDIR=/local/joosep/clic_edm4hep/2024_03/
-SIMDIR=/home/joosep/key4hep-sim/sim
+SIMDIR=/home/joosep/key4hep-sim/clic/
 WORKDIR=/scratch/local/$USER/${SAMPLE}_${SLURM_JOB_ID}
 FULLOUTDIR=${OUTDIR}/${SAMPLE}
 
