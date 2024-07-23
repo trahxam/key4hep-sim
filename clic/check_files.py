@@ -1,7 +1,7 @@
 import os
 
 #check for file presence in this path
-outpath = "/local/joosep/clic_edm4hep/2024_03"
+outpath = "/local/joosep/clic_edm4hep/2024_07"
 
 #pythia card, start seed, end seed
 samples = [
@@ -13,6 +13,8 @@ samples = [
 
 if __name__ == "__main__":
     for sname, seed0, seed1 in samples:
+        os.makedirs(os.path.join(outpath, sname, "root"), exist_ok=True)
+        os.makedirs(os.path.join(outpath, sname, "sim"), exist_ok=True)
         for seed in range(seed0, seed1):
             #check if output file exists, and print out batch submission if it doesn't
             if not os.path.isfile("{}/{}/root/reco_{}_{}.root".format(outpath, sname, sname, seed)):
