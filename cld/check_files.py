@@ -5,7 +5,7 @@ outpath = "/local/joosep/cld_edm4hep/2024_05_full/"
 
 #pythia card, start seed, end seed
 samples = [
-    ("p8_ee_tt_ecm365",         100001, 101010),
+    ("p8_ee_tt_ecm365",         100001, 102010),
 ]
 
 if __name__ == "__main__":
