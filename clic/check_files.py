@@ -6,10 +6,10 @@ outpath = "/local/joosep/clic_edm4hep/2024_07"
 #pythia card, start seed, end seed
 samples = [
     ("p8_ee_tt_ecm380",              1,  80011),
-#    ("p8_ee_qq_ecm380",         100001, 140011),
-#    ("p8_ee_ZH_Htautau_ecm380", 200001, 240011),
-#    ("p8_ee_Z_Ztautau_ecm380",  400001, 440011),
-#    ("p8_ee_WW_fullhad_ecm380", 300001, 340011),
+    ("p8_ee_qq_ecm380",         100001, 140011),
+    ("p8_ee_ZH_Htautau_ecm380", 200001, 240011),
+    ("p8_ee_Z_Ztautau_ecm380",  400001, 440011),
+    ("p8_ee_WW_fullhad_ecm380", 300001, 340011),
 ]
 
 if __name__ == "__main__":
