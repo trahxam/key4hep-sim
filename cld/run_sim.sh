@@ -9,20 +9,31 @@ set -x
 env
 df -h
 
-export NEV=100
-export NUM=$1 #random seed
-export SAMPLE=$2 #main card
+export NEV=$1  # number of events to generate per rootfile
+export SAMPLE=$2 # main card
+export JOBID=$3 # random seed
 
-#Change these as needed
-export OUTDIR=/local/joosep/cld_edm4hep/2024_05_full/
-export SIMDIR=/home/joosep/key4hep-sim/cld/CLDConfig/CLDConfig
-export WORKDIR=/scratch/local/$USER/${SAMPLE}_${SLURM_JOB_ID}
+# alias for quick access of work directory
+export USERDIR=/afs/cern.ch/user/f/fmokhtar
+export WORKDIR=/afs/cern.ch/work/f/fmokhtar
+export EOSDIR=/eos/user/f/fmokhtar/
+
+# in your $USERDIR:
+# git clone the key4hep-sim GitHub repo: https://github.com/HEP-KBFI/key4hep-sim/tree/main
+# make sure to clone the CLDConfig repo https://github.com/jpata/CLDConfig/tree/982a1601e111feca4ccf4c4fcc6571d9a8f19d87 and put it in: key4hep-sim/cld/CLDConfig/CLDConfig and checkout 982a160
+
+# set the directories (change these as needed)
+export OUTDIR=${USERDIR}/cld_edm4hep/2024_05_full/
+export SIMDIR=${USERDIR}/key4hep-sim/cld/CLDConfig/CLDConfig
+export JOBDIR=${WORKDIR}/JOBDIR/$USER/${SAMPLE}_${JOBID}
 export FULLOUTDIR=${OUTDIR}/${SAMPLE}
 
 mkdir -p $FULLOUTDIR
+mkdir -p ${FULLOUTDIR}/root
+mkdir -p ${FULLOUTDIR}/sim
 
-mkdir -p $WORKDIR
-cd $WORKDIR
+mkdir -p $JOBDIR
+cd $JOBDIR
 
 cp $SIMDIR/${SAMPLE}.cmd card.cmd
 cp $SIMDIR/pythia.py ./
@@ -30,7 +41,7 @@ cp $SIMDIR/cld_steer.py ./
 cp -R $SIMDIR/PandoraSettingsCLD ./
 cp -R $SIMDIR/CLDReconstruction.py ./
 
-echo "Random:seed=${NUM}" >> card.cmd
+echo "Random:seed=${JOBID}" >> card.cmd
 cat card.cmd
 
 echo "
@@ -45,12 +56,12 @@ k4run CLDReconstruction.py --inputFiles out_SIM.root --outputBasename out_RECO -
 
 cat sim.sh
 
-# singularity exec -B /cvmfs -B /scratch -B /local docker://ghcr.io/key4hep/key4hep-images/alma9:latest bash sim.sh
-singularity exec -B /cvmfs -B /scratch -B /local /home/software/singularity/alma9.simg bash sim.sh
+singularity exec -B /cvmfs -B $OUTDIR -B $JOBDIR docker://ghcr.io/key4hep/key4hep-images/alma9:latest bash sim.sh
+# singularity exec -B /cvmfs -B /scratch -B /local /home/software/singularity/alma9.simg bash sim.sh
 
 #Copy the outputs
-cp out_RECO_edm4hep.root $FULLOUTDIR/root/reco_${SAMPLE}_${NUM}.root
+cp out_RECO_edm4hep.root $FULLOUTDIR/root/reco_${SAMPLE}_${JOBID}.root
 bzip2 out.hepmc
-cp out.hepmc.bz2 $FULLOUTDIR/sim/sim_${SAMPLE}_${NUM}.hepmc.bz2
+cp out.hepmc.bz2 $FULLOUTDIR/sim/sim_${SAMPLE}_${JOBID}.hepmc.bz2
 
-rm -Rf $WORKDIR
+rm -Rf $JOBDIR

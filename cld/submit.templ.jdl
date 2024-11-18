@@ -1,0 +1,19 @@
+# job.sub
+
+# Define the executable to run
+executable = ./run_sim.sh
+
+# Arguments for the executable (if any)
+arguments = NEV SAMPLE JOBID
+
+# Specify log, output, and error files for Condor to store job info
+log    = condor/TAG/logs/job_JOBID.log
+output = condor/TAG/logs/job_JOBID.out
+error  = condor/TAG/logs/job_JOBID.err
+
+# Request resources (memory, CPUs, etc.)
+request_memory = 4 GB
+request_cpus = 8
+
+# If you want to run multiple jobs, set the job count
+queue 1
