@@ -10,7 +10,7 @@ def main(args):
         os.makedirs(f"condor/{args.tag}")
 
     Nevents = args.Nevents
-    Nevents_per_file = 100  # our choice
+    Nevents_per_file = 10  # our choice
     Njobs = Nevents // Nevents_per_file
 
     for jobid in range(Njobs):  # jobid marks the random seed
