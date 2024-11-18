@@ -10,7 +10,8 @@ def main(args):
         os.makedirs(f"condor/{args.tag}")
 
     Nevents = args.Nevents
-    Nevents_per_file = 10  # our choice
+    Nevents_per_file = args.Nevents_per_file
+
     Njobs = Nevents // Nevents_per_file
 
     for jobid in range(Njobs):  # jobid marks the random seed
@@ -40,14 +41,15 @@ def main(args):
 
 if __name__ == "__main__":
     """
-    python3 submit.py --sample p8_ee_tt_ecm365 --Nevents 4 --tag Nov15 --submit
+    python3 submit.py --sample p8_ee_tt_ecm365 --Nevents 4 --Nevents-per-file 2 --tag Nov15 --submit
     """
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--sample", dest="sample", default="", help="which sample to generate", type=str)
-    parser.add_argument("--Nevents", dest="Nevents", default=2, help="how many events to generate", type=int)
-    parser.add_argument("--submit", dest="submit", action="store_true", help="submit jobs when created")
-    parser.add_argument("--tag", dest="tag", default="", help="dir tag", type=str)
+    parser.add_argument("--sample", default="", help="which sample to generate", type=str)
+    parser.add_argument("--Nevents", default=4, help="how many events to generate", type=int)
+    parser.add_argument("--Nevents-per-file", default=2, help="how many events to store per file", type=int)
+    parser.add_argument("--submit", action="store_true", help="submit jobs when created")
+    parser.add_argument("--tag", default="", help="dir tag", type=str)
 
     args = parser.parse_args()
 
