@@ -25,7 +25,7 @@ export EOSDIR=/eos/user/f/fmokhtar/
 # set the directories (change these as needed)
 export OUTDIR=${USERDIR}/cld_edm4hep/2024_05_full/
 export SIMDIR=${USERDIR}/key4hep-sim/cld/CLDConfig/CLDConfig
-export JOBDIR=${WORKDIR}/JOBDIR/$USER/${SAMPLE}_${JOBID}
+export JOBDIR=${WORKDIR}/jobs_dir/$USER/${SAMPLE}_${JOBID}
 export FULLOUTDIR=${OUTDIR}/${SAMPLE}
 
 mkdir -p $FULLOUTDIR
