@@ -10,7 +10,7 @@ def main(args):
         os.makedirs(f"condor/{args.tag}")
 
     Nevents = args.Nevents
-    Nevents_per_file = 2  # our choice
+    Nevents_per_file = 100  # our choice
     Njobs = Nevents // Nevents_per_file
 
     for jobid in range(Njobs):  # jobid marks the random seed
@@ -40,7 +40,7 @@ def main(args):
 
 if __name__ == "__main__":
     """
-    python3 submit.py --sample p8_ee_tt_ecm240 --Nevents 300 --tag Nov15 --submit
+    python3 submit.py --sample p8_ee_tt_ecm365 --Nevents 4 --tag Nov15 --submit
     """
 
     parser = argparse.ArgumentParser()
