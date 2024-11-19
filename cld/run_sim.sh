@@ -60,8 +60,12 @@ singularity exec -B /cvmfs -B $OUTDIR -B $JOBDIR docker://ghcr.io/key4hep/key4he
 # singularity exec -B /cvmfs -B /scratch -B /local /home/software/singularity/alma9.simg bash sim.sh
 
 #Copy the outputs
-cp out_RECO_edm4hep.root $FULLOUTDIR/root/reco_${SAMPLE}_${JOBID}.root
 bzip2 out.hepmc
-cp out.hepmc.bz2 $FULLOUTDIR/sim/sim_${SAMPLE}_${JOBID}.hepmc.bz2
-
+cp out.hepmc.bz2 ../sim_${SAMPLE}_${JOBID}.hepmc.bz2
+cp out_RECO_edm4hep.root ../reco_${SAMPLE}_${JOBID}.root
+cd ..
 rm -Rf $JOBDIR
+
+# copy file to outputdir
+cp reco_${SAMPLE}_${JOBID}.root $FULLOUTDIR/root/reco_${SAMPLE}_${JOBID}.root
+cp sim_${SAMPLE}_${JOBID}.hepmc.bz2 $FULLOUTDIR/sim/sim_${SAMPLE}_${JOBID}.hepmc.bz2
