@@ -15,5 +15,7 @@ error  = /afs/cern.ch/user/f/fmokhtar/key4hep-sim/cld/condor/TAG/logs/job_JOBID.
 request_memory = 4 GB
 request_cpus = 8
 
++MaxRunTime = 86400
+
 # If you want to run multiple jobs, set the job count
 queue
