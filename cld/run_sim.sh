@@ -66,6 +66,6 @@ cp out_RECO_edm4hep.root ../reco_${SAMPLE}_${JOBID}.root
 cd ..
 rm -Rf $JOBDIR
 
-# copy file to outputdir
-cp reco_${SAMPLE}_${JOBID}.root $FULLOUTDIR/root/reco_${SAMPLE}_${JOBID}.root
-cp sim_${SAMPLE}_${JOBID}.hepmc.bz2 $FULLOUTDIR/sim/sim_${SAMPLE}_${JOBID}.hepmc.bz2
+# # copy file to outputdir
+# cp reco_${SAMPLE}_${JOBID}.root $FULLOUTDIR/root/reco_${SAMPLE}_${JOBID}.root
+# cp sim_${SAMPLE}_${JOBID}.hepmc.bz2 $FULLOUTDIR/sim/sim_${SAMPLE}_${JOBID}.hepmc.bz2
