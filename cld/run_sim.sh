@@ -18,28 +18,18 @@ export USERDIR=/afs/cern.ch/user/f/fmokhtar
 export WORKDIR=/afs/cern.ch/work/f/fmokhtar
 export EOSDIR=/eos/user/f/fmokhtar/
 
+
+
 # in your $USERDIR:
 # git clone the key4hep-sim GitHub repo: https://github.com/HEP-KBFI/key4hep-sim/tree/main
 # make sure to clone the CLDConfig repo https://github.com/jpata/CLDConfig/tree/982a1601e111feca4ccf4c4fcc6571d9a8f19d87 and put it in: key4hep-sim/cld/CLDConfig/CLDConfig and checkout 982a160
 
 # set the directories (change these as needed)
-export OUTDIR=${USERDIR}/cld_edm4hep/2024_05_full/
-export SIMDIR=${USERDIR}/key4hep-sim/cld/CLDConfig/CLDConfig
-export JOBDIR=${WORKDIR}/jobs_dir/$USER/${SAMPLE}_${JOBID}
-export FULLOUTDIR=${OUTDIR}/${SAMPLE}
-
-mkdir -p $FULLOUTDIR
-mkdir -p ${FULLOUTDIR}/root
-mkdir -p ${FULLOUTDIR}/sim
+export SIMDIR=${EOSDIR}/key4hep-sim/cld/CLDConfig/CLDConfig
+export JOBDIR=${EOSDIR}/jobs_dir/${SAMPLE}_${JOBID}
 
 mkdir -p $JOBDIR
 cd $JOBDIR
-
-cp $SIMDIR/${SAMPLE}.cmd card.cmd
-cp $SIMDIR/pythia.py ./
-cp $SIMDIR/cld_steer.py ./
-cp -R $SIMDIR/PandoraSettingsCLD ./
-cp -R $SIMDIR/CLDReconstruction.py ./
 
 echo "Random:seed=${JOBID}" >> card.cmd
 cat card.cmd
@@ -56,15 +46,17 @@ k4run CLDReconstruction.py --inputFiles out_SIM.root --outputBasename out_RECO -
 
 cat sim.sh
 
-singularity exec -B /cvmfs -B $OUTDIR -B $JOBDIR docker://ghcr.io/key4hep/key4hep-images/alma9:latest bash sim.sh
+singularity exec -B /cvmfs -B $SIMDIR docker://ghcr.io/key4hep/key4hep-images/alma9:latest bash sim.sh
 # singularity exec -B /cvmfs -B /scratch -B /local /home/software/singularity/alma9.simg bash sim.sh
 
-#Copy the outputs
+#Copy the outputs to EOS
 bzip2 out.hepmc
-cp out.hepmc.bz2 ../sim_${SAMPLE}_${JOBID}.hepmc.bz2
-cp out_RECO_edm4hep.root ../reco_${SAMPLE}_${JOBID}.root
+xrdcp -r -f out.hepmc.bz2 $EOSDIR/jobs_dir/sim_${SAMPLE}_${JOBID}.hepmc.bz2
+xrdcp -r -f out_RECO_edm4hep.root $EOSDIR/jobs_dir/reco_${SAMPLE}_${JOBID}.root
+
 cd ..
 rm -Rf $JOBDIR
+
 
 # # copy file to outputdir
 # cp reco_${SAMPLE}_${JOBID}.root $FULLOUTDIR/root/reco_${SAMPLE}_${JOBID}.root
