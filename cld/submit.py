@@ -6,8 +6,8 @@ import os
 
 def main(args):
 
-    if not os.path.exists(f"condor/{args.tag}"):
-        os.makedirs(f"condor/{args.tag}")
+    if not os.path.exists(f"condor/{args.tag}/logs"):
+        os.makedirs(f"condor/{args.tag}/logs")
 
     Nevents = args.Nevents
     Nevents_per_file = args.Nevents_per_file
