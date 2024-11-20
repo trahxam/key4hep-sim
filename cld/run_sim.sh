@@ -16,26 +16,24 @@ export JOBID=$3 # random seed
 # alias for quick access of work directory
 export USERDIR=/afs/cern.ch/user/f/fmokhtar
 export WORKDIR=/afs/cern.ch/work/f/fmokhtar
-export EOSDIR=/eos/user/f/fmokhtar/
-
-
+export EOSDIR=/eos/user/f/fmokhtar/jobs_dir
 
 # in your $USERDIR:
 # git clone the key4hep-sim GitHub repo: https://github.com/HEP-KBFI/key4hep-sim/tree/main
 # make sure to clone the CLDConfig repo https://github.com/jpata/CLDConfig/tree/982a1601e111feca4ccf4c4fcc6571d9a8f19d87 and put it in: key4hep-sim/cld/CLDConfig/CLDConfig and checkout 982a160
 
 # set the directories (change these as needed)
-export SIMDIR=${EOSDIR}/key4hep-sim/cld/CLDConfig/CLDConfig
-export JOBDIR=${EOSDIR}/jobs_dir/${SAMPLE}_${JOBID}
+export SIMDIR=${USERDIR}/key4hep-sim/cld/CLDConfig/CLDConfig
+export JOBDIR=${WORKDIR}/jobs_dir/$USER/${SAMPLE}_${JOBID}
 
 mkdir -p $JOBDIR
 cd $JOBDIR
 
-xrdcp -r -f $SIMDIR/${SAMPLE}.cmd card.cmd
-xrdcp -r -f $SIMDIR/pythia.py ./
-xrdcp -r -f $SIMDIR/cld_steer.py ./
-xrdcp -r -f -R $SIMDIR/PandoraSettingsCLD ./
-xrdcp -r -f -R $SIMDIR/CLDReconstruction.py ./
+cp $SIMDIR/${SAMPLE}.cmd card.cmd
+cp $SIMDIR/pythia.py ./
+cp $SIMDIR/cld_steer.py ./
+cp -R $SIMDIR/PandoraSettingsCLD ./
+cp -R $SIMDIR/CLDReconstruction.py ./
 
 echo "Random:seed=${JOBID}" >> card.cmd
 cat card.cmd
@@ -57,13 +55,9 @@ singularity exec -B /cvmfs -B $JOBDIR docker://ghcr.io/key4hep/key4hep-images/al
 
 #Copy the outputs to EOS
 bzip2 out.hepmc
-xrdcp -r -f out.hepmc.bz2 $EOSDIR/jobs_dir/sim_${SAMPLE}_${JOBID}.hepmc.bz2
-xrdcp -r -f out_RECO_edm4hep.root $EOSDIR/jobs_dir/reco_${SAMPLE}_${JOBID}.root
+xrdcp out.hepmc.bz2 $EOSDIR/sim_${SAMPLE}_${JOBID}.hepmc.bz2
+xrdcp out_RECO_edm4hep.root $EOSDIR/reco_${SAMPLE}_${JOBID}.root
 
 cd ..
 rm -Rf $JOBDIR
 
-
-# # copy file to outputdir
-# cp reco_${SAMPLE}_${JOBID}.root $FULLOUTDIR/root/reco_${SAMPLE}_${JOBID}.root
-# cp sim_${SAMPLE}_${JOBID}.hepmc.bz2 $FULLOUTDIR/sim/sim_${SAMPLE}_${JOBID}.hepmc.bz2
