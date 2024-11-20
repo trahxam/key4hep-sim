@@ -18,6 +18,8 @@ export USERDIR=/afs/cern.ch/user/f/fmokhtar
 export WORKDIR=/afs/cern.ch/work/f/fmokhtar
 export EOSDIR=/eos/user/f/fmokhtar/jobs_dir
 
+mkdir -p $EOSDIR
+
 # in your $USERDIR:
 # git clone the key4hep-sim GitHub repo: https://github.com/HEP-KBFI/key4hep-sim/tree/main
 # make sure to clone the CLDConfig repo https://github.com/jpata/CLDConfig/tree/982a1601e111feca4ccf4c4fcc6571d9a8f19d87 and put it in: key4hep-sim/cld/CLDConfig/CLDConfig and checkout 982a160
