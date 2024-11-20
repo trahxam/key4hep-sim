@@ -46,7 +46,7 @@ k4run CLDReconstruction.py --inputFiles out_SIM.root --outputBasename out_RECO -
 
 cat sim.sh
 
-singularity exec -B /cvmfs -B $SIMDIR docker://ghcr.io/key4hep/key4hep-images/alma9:latest bash sim.sh
+singularity exec -B /cvmfs -B $JOBDIR -B $SIMDIR docker://ghcr.io/key4hep/key4hep-images/alma9:latest bash sim.sh
 # singularity exec -B /cvmfs -B /scratch -B /local /home/software/singularity/alma9.simg bash sim.sh
 
 #Copy the outputs to EOS
