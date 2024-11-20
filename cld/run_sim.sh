@@ -31,6 +31,12 @@ export JOBDIR=${EOSDIR}/jobs_dir/${SAMPLE}_${JOBID}
 mkdir -p $JOBDIR
 cd $JOBDIR
 
+xrdcp -r -f $SIMDIR/${SAMPLE}.cmd card.cmd
+xrdcp -r -f $SIMDIR/pythia.py ./
+xrdcp -r -f $SIMDIR/cld_steer.py ./
+xrdcp -r -f -R $SIMDIR/PandoraSettingsCLD ./
+xrdcp -r -f -R $SIMDIR/CLDReconstruction.py ./
+
 echo "Random:seed=${JOBID}" >> card.cmd
 cat card.cmd
 
@@ -46,7 +52,7 @@ k4run CLDReconstruction.py --inputFiles out_SIM.root --outputBasename out_RECO -
 
 cat sim.sh
 
-singularity exec -B /cvmfs -B $JOBDIR -B $SIMDIR docker://ghcr.io/key4hep/key4hep-images/alma9:latest bash sim.sh
+singularity exec -B /cvmfs -B $JOBDIR docker://ghcr.io/key4hep/key4hep-images/alma9:latest bash sim.sh
 # singularity exec -B /cvmfs -B /scratch -B /local /home/software/singularity/alma9.simg bash sim.sh
 
 #Copy the outputs to EOS
