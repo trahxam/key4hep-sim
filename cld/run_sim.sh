@@ -43,7 +43,7 @@ cat card.cmd
 echo "
 #!/bin/bash
 set -e
-/cvmfs/sw.hsf.org/spackages5/key4hep-stack/2022-05-23/x86_64-centos7-gcc11.2.0-opt/wkcby/setup.sh
+source /cvmfs/sw.hsf.org/key4hep/setup.sh
 env
 k4run pythia.py -n $NEV --Dumper.Filename out.hepmc --Pythia8.PythiaInterface.pythiacard card.cmd
 ddsim -I out.hepmc -N -1 -O out_SIM.root --compactFile \$K4GEO/FCCee/CLD/compact/CLD_o2_v05/CLD_o2_v05.xml --steeringFile cld_steer.py
