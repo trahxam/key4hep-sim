@@ -13,7 +13,7 @@ error  = /afs/cern.ch/user/f/fmokhtar/key4hep-sim/cld/condor/TAG/logs/job_JOBID.
 
 # Request resources (memory, CPUs, etc.)
 request_memory = 4 GB
-request_cpus = 8
+request_cpus = 1
 
 WHEN_TO_TRANSFER_OUTPUT = ON_EXIT_OR_EVICT
 
