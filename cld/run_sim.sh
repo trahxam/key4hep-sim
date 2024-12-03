@@ -32,10 +32,6 @@ mkdir -p $JOBDIR
 cd $JOBDIR
 
 cp $SIMDIR/${SAMPLE}.cmd card.cmd
-cp $SIMDIR/pythia.py ./
-cp $SIMDIR/cld_steer.py ./
-cp -R $SIMDIR/PandoraSettingsCLD ./
-cp -R $SIMDIR/CLDReconstruction.py ./
 
 echo "Random:seed=${JOBID}" >> card.cmd
 cat card.cmd
