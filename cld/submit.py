@@ -6,8 +6,13 @@ import os
 
 def main(args):
 
+    # create logs directory in AFS
     if not os.path.exists(f"condor/{args.tag}/logs"):
         os.makedirs(f"condor/{args.tag}/logs")
+
+    # create output directory on EOS
+    if not os.path.exists(f"/eos/user/f/fmokhtar/{args.tag}/"):
+        os.makedirs(f"/eos/user/f/fmokhtar/{args.tag}/")
 
     Nevents = args.Nevents
     Nevents_per_file = args.Nevents_per_file
