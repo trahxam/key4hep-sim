@@ -14,25 +14,22 @@ export SAMPLE=$2 # main card
 export JOBID=$3 # random seed
 
 # alias for quick access of work directory
-export USERDIR=/afs/cern.ch/user/f/fmokhtar
 export WORKDIR=/afs/cern.ch/work/f/fmokhtar
 export EOSDIR=/eos/user/f/fmokhtar/
 
+# TODO: make this in python
 mkdir -p $EOSDIR/jobs_dir
 
-# in your $USERDIR:
-# git clone the key4hep-sim GitHub repo: https://github.com/HEP-KBFI/key4hep-sim/tree/main
-# make sure to clone the CLDConfig repo https://github.com/jpata/CLDConfig/tree/982a1601e111feca4ccf4c4fcc6571d9a8f19d87 and put it in: key4hep-sim/cld/CLDConfig/CLDConfig and checkout 982a160
-
 # set the directories (change these as needed)
-export SIMDIR=${USERDIR}/key4hep-sim/cld/CLDConfig/CLDConfig
 export JOBDIR=${WORKDIR}/jobs_dir/$USER/${SAMPLE}_${JOBID}
 
 mkdir -p $JOBDIR
 cd $JOBDIR
 
+# copy large input files via xrootd (recommended)
 xrdcp root://eosuser.cern.ch/$EOSDIR/key4hep-sim/cld/CLDConfig/CLDConfig/${SAMPLE}.cmd card.cmd
 xrdcp root://eosuser.cern.ch/$EOSDIR/key4hep-sim/cld/CLDConfig/CLDConfig/pythia.py pythia.py
+xrdcp root://eosuser.cern.ch/$EOSDIR/key4hep-sim/cld/CLDConfig/CLDConfig/cld_steer.py cld_steer.py
 xrdcp root://eosuser.cern.ch/$EOSDIR/key4hep-sim/cld/CLDConfig/CLDConfig/CLDReconstruction.py CLDReconstruction.py
 xrdcp -r root://eosuser.cern.ch/$EOSDIR/key4hep-sim/cld/CLDConfig/CLDConfig/PandoraSettingsCLD .
 
