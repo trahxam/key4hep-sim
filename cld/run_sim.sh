@@ -14,7 +14,7 @@ export SAMPLE=$2 # main card
 export JOBID=$3 # random seed
 export TAG=$4 # output dir tag on EOS
 
-# alias for quick access of work directory
+# alias for quick access of EOS directory to copy input/output files via xrootd
 export EOSDIR=/eos/user/f/fmokhtar/
 
 mkdir CLDConfig_tmp
@@ -48,7 +48,5 @@ cat sim.sh
 singularity exec -B /cvmfs -B $dir_to_bind docker://ghcr.io/key4hep/key4hep-images/alma9:latest bash sim.sh
 
 # copy the output files to EOS
-bzip2 out.hepmc
-xrdcp out.hepmc.bz2 root://eosuser.cern.ch/$EOSDIR/$TAG/sim_${SAMPLE}_${JOBID}.hepmc.bz2
 xrdcp out_RECO_edm4hep.root root://eosuser.cern.ch/$EOSDIR/$TAG/reco_${SAMPLE}_${JOBID}.root
 
