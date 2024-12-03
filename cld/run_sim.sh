@@ -18,7 +18,8 @@ export TAG=$4 # output dir tag on EOS
 export EOSDIR=/eos/user/f/fmokhtar/
 
 mkdir CLDConfig_tmp
-cd CLDConfig_tmp
+dir_to_bind=$(realpath CLDConfig_tmp)
+cd $dir_to_bind
 
 # copy large input files via xrootd (recommended)
 xrdcp root://eosuser.cern.ch/$EOSDIR/key4hep-sim/cld/CLDConfig/CLDConfig/${SAMPLE}.cmd card.cmd
@@ -44,7 +45,6 @@ k4run CLDReconstruction.py --inputFiles out_SIM.root --outputBasename out_RECO -
 cat sim.sh
 
 # run the event generation and PF reco
-dir_to_bind=$(realpath CLDConfig_tmp)
 singularity exec -B /cvmfs -B $dir_to_bind docker://ghcr.io/key4hep/key4hep-images/alma9:latest bash sim.sh
 
 # copy the output files to EOS
