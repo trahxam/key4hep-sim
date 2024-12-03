@@ -12,13 +12,11 @@ df -h
 export NEV=$1  # number of events to generate per rootfile
 export SAMPLE=$2 # main card
 export JOBID=$3 # random seed
+export TAG=$4 # output dir tag
 
 # alias for quick access of work directory
 export WORKDIR=/afs/cern.ch/work/f/fmokhtar
 export EOSDIR=/eos/user/f/fmokhtar/
-
-# TODO: make this in python
-mkdir -p $EOSDIR/jobs_dir
 
 # set the directories (change these as needed)
 export JOBDIR=${WORKDIR}/jobs_dir/$USER/${SAMPLE}_${JOBID}
@@ -53,8 +51,8 @@ singularity exec -B /cvmfs -B $JOBDIR docker://ghcr.io/key4hep/key4hep-images/al
 
 #Copy the outputs to EOS
 bzip2 out.hepmc
-xrdcp out.hepmc.bz2 root://eosuser.cern.ch/$EOSDIR/jobs_dir/sim_${SAMPLE}_${JOBID}.hepmc.bz2
-xrdcp out_RECO_edm4hep.root root://eosuser.cern.ch/$EOSDIR/jobs_dir/reco_${SAMPLE}_${JOBID}.root
+xrdcp out.hepmc.bz2 root://eosuser.cern.ch/$EOSDIR/$TAG/sim_${SAMPLE}_${JOBID}.hepmc.bz2
+xrdcp out_RECO_edm4hep.root root://eosuser.cern.ch/$EOSDIR/$TAG/reco_${SAMPLE}_${JOBID}.root
 
 cd ..
 rm -Rf $JOBDIR
