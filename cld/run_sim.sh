@@ -12,17 +12,13 @@ df -h
 export NEV=$1  # number of events to generate per rootfile
 export SAMPLE=$2 # main card
 export JOBID=$3 # random seed
-export TAG=$4 # output dir tag
+export TAG=$4 # output dir tag on EOS
 
 # alias for quick access of work directory
-export WORKDIR=/afs/cern.ch/work/f/fmokhtar
 export EOSDIR=/eos/user/f/fmokhtar/
 
-# set the directories (change these as needed)
-export JOBDIR=${WORKDIR}/jobs_dir/$USER/${SAMPLE}_${JOBID}
-
-mkdir -p $JOBDIR
-cd $JOBDIR
+mkdir CLDConfigYalla
+cd CLDConfigYalla
 
 # copy large input files via xrootd (recommended)
 xrdcp root://eosuser.cern.ch/$EOSDIR/key4hep-sim/cld/CLDConfig/CLDConfig/${SAMPLE}.cmd card.cmd
@@ -31,6 +27,9 @@ xrdcp root://eosuser.cern.ch/$EOSDIR/key4hep-sim/cld/CLDConfig/CLDConfig/cld_ste
 xrdcp root://eosuser.cern.ch/$EOSDIR/key4hep-sim/cld/CLDConfig/CLDConfig/CLDReconstruction.py CLDReconstruction.py
 xrdcp -r root://eosuser.cern.ch/$EOSDIR/key4hep-sim/cld/CLDConfig/CLDConfig/PandoraSettingsCLD .
 
+cd ..
+
+# update the seed in the pythia card
 echo "Random:seed=${JOBID}" >> card.cmd
 cat card.cmd
 
@@ -46,14 +45,11 @@ k4run CLDReconstruction.py --inputFiles out_SIM.root --outputBasename out_RECO -
 
 cat sim.sh
 
-singularity exec -B /cvmfs -B $JOBDIR docker://ghcr.io/key4hep/key4hep-images/alma9:latest bash sim.sh
-# singularity exec -B /cvmfs -B /scratch -B /local /home/software/singularity/alma9.simg bash sim.sh
+# run the event generation and PF reco
+singularity exec -B /cvmfs -B CLDConfigYalla docker://ghcr.io/key4hep/key4hep-images/alma9:latest bash sim.sh
 
-#Copy the outputs to EOS
+# copy the output files to EOS
 bzip2 out.hepmc
 xrdcp out.hepmc.bz2 root://eosuser.cern.ch/$EOSDIR/$TAG/sim_${SAMPLE}_${JOBID}.hepmc.bz2
 xrdcp out_RECO_edm4hep.root root://eosuser.cern.ch/$EOSDIR/$TAG/reco_${SAMPLE}_${JOBID}.root
-
-cd ..
-rm -Rf $JOBDIR
 
