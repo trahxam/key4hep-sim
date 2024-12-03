@@ -31,7 +31,7 @@ export JOBDIR=${WORKDIR}/jobs_dir/$USER/${SAMPLE}_${JOBID}
 mkdir -p $JOBDIR
 cd $JOBDIR
 
-xrdcp $EOSDIR/key4hep-sim/cld/CLDConfig/CLDConfig/${SAMPLE}.cmd card.cmd
+xrdcp root://eosuser.cern.ch/$EOSDIR/key4hep-sim/cld/CLDConfig/CLDConfig/${SAMPLE}.cmd card.cmd
 
 echo "Random:seed=${JOBID}" >> card.cmd
 cat card.cmd
@@ -53,8 +53,8 @@ singularity exec -B /cvmfs -B $JOBDIR docker://ghcr.io/key4hep/key4hep-images/al
 
 #Copy the outputs to EOS
 bzip2 out.hepmc
-xrdcp out.hepmc.bz2 $EOSDIR/jobs_dir/sim_${SAMPLE}_${JOBID}.hepmc.bz2
-xrdcp out_RECO_edm4hep.root $EOSDIR/jobs_dir/reco_${SAMPLE}_${JOBID}.root
+xrdcp out.hepmc.bz2 root://eosuser.cern.ch/$EOSDIR/jobs_dir/sim_${SAMPLE}_${JOBID}.hepmc.bz2
+xrdcp out_RECO_edm4hep.root root://eosuser.cern.ch/$EOSDIR/jobs_dir/reco_${SAMPLE}_${JOBID}.root
 
 cd ..
 rm -Rf $JOBDIR
