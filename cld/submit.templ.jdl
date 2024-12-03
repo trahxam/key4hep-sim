@@ -4,7 +4,7 @@
 executable = ./run_sim.sh
 
 # Arguments for the executable (if any)
-arguments = NEV SAMPLE JOBID
+arguments = NEV SAMPLE JOBID TAG
 
 # Specify log, output, and error files for Condor to store job info
 log    = /afs/cern.ch/user/f/fmokhtar/key4hep-sim/cld/condor/TAG/logs/job_JOBID.log
