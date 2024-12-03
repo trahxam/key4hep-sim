@@ -16,9 +16,9 @@ export JOBID=$3 # random seed
 # alias for quick access of work directory
 export USERDIR=/afs/cern.ch/user/f/fmokhtar
 export WORKDIR=/afs/cern.ch/work/f/fmokhtar
-export EOSDIR=/eos/user/f/fmokhtar/jobs_dir
+export EOSDIR=/eos/user/f/fmokhtar/
 
-mkdir -p $EOSDIR
+mkdir -p $EOSDIR/jobs_dir
 
 # in your $USERDIR:
 # git clone the key4hep-sim GitHub repo: https://github.com/HEP-KBFI/key4hep-sim/tree/main
@@ -31,7 +31,7 @@ export JOBDIR=${WORKDIR}/jobs_dir/$USER/${SAMPLE}_${JOBID}
 mkdir -p $JOBDIR
 cd $JOBDIR
 
-cp $SIMDIR/${SAMPLE}.cmd card.cmd
+xrdcp $EOSDIR/key4hep-sim/cld/CLDConfig/CLDConfig/${SAMPLE}.cmd card.cmd
 
 echo "Random:seed=${JOBID}" >> card.cmd
 cat card.cmd
@@ -53,8 +53,8 @@ singularity exec -B /cvmfs -B $JOBDIR docker://ghcr.io/key4hep/key4hep-images/al
 
 #Copy the outputs to EOS
 bzip2 out.hepmc
-xrdcp out.hepmc.bz2 $EOSDIR/sim_${SAMPLE}_${JOBID}.hepmc.bz2
-xrdcp out_RECO_edm4hep.root $EOSDIR/reco_${SAMPLE}_${JOBID}.root
+xrdcp out.hepmc.bz2 $EOSDIR/jobs_dir/sim_${SAMPLE}_${JOBID}.hepmc.bz2
+xrdcp out_RECO_edm4hep.root $EOSDIR/jobs_dir/reco_${SAMPLE}_${JOBID}.root
 
 cd ..
 rm -Rf $JOBDIR
