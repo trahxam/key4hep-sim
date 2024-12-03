@@ -46,7 +46,8 @@ k4run CLDReconstruction.py --inputFiles out_SIM.root --outputBasename out_RECO -
 cat sim.sh
 
 # run the event generation and PF reco
-singularity exec -B /cvmfs -B CLDConfigYalla docker://ghcr.io/key4hep/key4hep-images/alma9:latest bash sim.sh
+dir_to_bind=$(realpath CLDConfigYalla)
+singularity exec -B /cvmfs -B $dir_to_bind docker://ghcr.io/key4hep/key4hep-images/alma9:latest bash sim.sh
 
 # copy the output files to EOS
 bzip2 out.hepmc
