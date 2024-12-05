@@ -46,7 +46,7 @@ set -e
 source /cvmfs/sw.hsf.org/key4hep/setup.sh
 env
 k4run pythia.py -n $NEV --Dumper.Filename out.hepmc --Pythia8.PythiaInterface.pythiacard card.cmd
-ddsim -I out.hepmc -N -1 -O out_SIM.root --compactFile \$K4GEO/FCCee/ILD_FCCee/compact/ILD_FCCee_v02/ILD_FCCee_v02.xml --steeringFile cld_steer.py
+ddsim -I out.hepmc -N -1 -O out_SIM.root --compactFile \$K4GEO/FCCee/ILD/compact/ILD_common_v02/ILD_common_v02.xml --steeringFile cld_steer.py
 k4run CLDReconstruction.py --inputFiles out_SIM.root --outputBasename out_RECO --num-events -1
 " > sim.sh
 
