@@ -20,11 +20,11 @@ dir_to_bind=$(realpath CLDConfig_tmp)
 cd $dir_to_bind
 
 # copy inpit files
-xrdcp root://eosuser.cern.ch/$EOSDIR/key4hep-sim/cld/CLDConfig/CLDConfig/${SAMPLE}.cmd card.cmd
-xrdcp root://eosuser.cern.ch/$EOSDIR/key4hep-sim/cld/CLDConfig/CLDConfig/pythia.py pythia.py
-xrdcp root://eosuser.cern.ch/$EOSDIR/key4hep-sim/cld/CLDConfig/CLDConfig/cld_steer.py cld_steer.py
-xrdcp root://eosuser.cern.ch/$EOSDIR/key4hep-sim/cld/CLDConfig/CLDConfig/CLDReconstruction.py CLDReconstruction.py
-xrdcp -r root://eosuser.cern.ch/$EOSDIR/key4hep-sim/cld/CLDConfig/CLDConfig/PandoraSettingsCLD .
+cp ../CLDConfig/CLDConfig/${SAMPLE}.cmd card.cmd
+cp ../CLDConfig/CLDConfig/pythia.py pythia.py
+cp ../CLDConfig/CLDConfig/cld_steer.py cld_steer.py
+cp ../CLDConfig/CLDConfig/CLDReconstruction.py CLDReconstruction.py
+cp -r ../CLDConfig/CLDConfig/PandoraSettingsCLD .
 
 # update the seed in the pythia card
 echo "Random:seed=${JOBID}" >> card.cmd
