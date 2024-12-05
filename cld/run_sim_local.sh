@@ -14,6 +14,7 @@ export SAMPLE=$2 # main card
 export JOBID=$3 # random seed
 
 # set the directories
+rm -rf CLDConfig_tmp
 mkdir CLDConfig_tmp
 dir_to_bind=$(realpath CLDConfig_tmp)
 cd $dir_to_bind
