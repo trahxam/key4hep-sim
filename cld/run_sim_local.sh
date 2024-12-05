@@ -30,40 +30,31 @@ cp -r ../CLDConfig/CLDConfig/PandoraSettingsCLD .
 echo "Random:seed=${JOBID}" >> card.cmd
 cat card.cmd
 
-# echo "
-# #!/bin/bash
-# set -e
-# source /cvmfs/sw.hsf.org/key4hep/setup.sh
-# env
-# k4run pythia.py -n $NEV --Dumper.Filename out.hepmc --Pythia8.PythiaInterface.pythiacard card.cmd
-# ddsim -I out.hepmc -N -1 -O out_SIM.root --compactFile \$K4GEO/FCCee/CLD/compact/CLD_o2_v05/CLD_o2_v05.xml --steeringFile cld_steer.py
-# k4run CLDReconstruction.py --inputFiles out_SIM.root --outputBasename out_RECO --num-events -1
-# " > sim.sh
-
-# echo "
-# #!/bin/bash
-# set -e
-# source /cvmfs/sw.hsf.org/key4hep/setup.sh
-# env
-# k4run pythia.py -n $NEV --Dumper.Filename out.hepmc --Pythia8.PythiaInterface.pythiacard card.cmd
-# ddsim -I out.hepmc -N -1 -O out_SIM.root --compactFile \$K4GEO/ILD/compact/ILD_common_v02/ILD_common_v02.xml --steeringFile cld_steer.py
-# k4run CLDReconstruction.py --inputFiles out_SIM.root --outputBasename out_RECO --num-events -1
-# " > sim.sh
-
-
 echo "
 #!/bin/bash
 set -e
 source /cvmfs/sw.hsf.org/key4hep/setup.sh
 env
 k4run pythia.py -n $NEV --Dumper.Filename out.hepmc --Pythia8.PythiaInterface.pythiacard card.cmd
-ddsim -I out.hepmc -N -1 -O out_SIM.root --compactFile /afs/cern.ch/user/f/fmokhtar/k4geo/FCCee/ILD_FCCee/compact/ILD_FCCee_v02/ILD_FCCee_v02.xml --steeringFile cld_steer.py
+ddsim -I out.hepmc -N -1 -O out_SIM.root --compactFile \$K4GEO/FCCee/CLD/compact/CLD_o2_v05/CLD_o2_v05.xml --steeringFile cld_steer.py
 k4run CLDReconstruction.py --inputFiles out_SIM.root --outputBasename out_RECO --num-events -1
 " > sim.sh
 
-cat sim.sh
+
+# echo "
+# #!/bin/bash
+# set -e
+# source /cvmfs/sw.hsf.org/key4hep/setup.sh
+# env
+# k4run pythia.py -n $NEV --Dumper.Filename out.hepmc --Pythia8.PythiaInterface.pythiacard card.cmd
+# ddsim -I out.hepmc -N -1 -O out_SIM.root --compactFile /afs/cern.ch/user/f/fmokhtar/k4geo/FCCee/ILD_FCCee/compact/ILD_FCCee_v02/ILD_FCCee_v02.xml --steeringFile cld_steer.py
+# k4run CLDReconstruction.py --inputFiles out_SIM.root --outputBasename out_RECO --num-events -1
+# " > sim.sh
+
+# cat sim.sh
 
 # run the event generation and PF reco
 singularity exec -B /cvmfs -B $dir_to_bind docker://ghcr.io/key4hep/key4hep-images/alma9:latest bash sim.sh
 
 cp out_RECO_edm4hep.root ../reco_${SAMPLE}_${JOBID}.root
+cp out.hepmc ../sim_${SAMPLE}_${JOBID}.hepmc
