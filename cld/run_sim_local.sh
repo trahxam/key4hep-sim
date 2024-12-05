@@ -54,3 +54,5 @@ cat sim.sh
 
 # run the event generation and PF reco
 singularity exec -B /cvmfs -B $dir_to_bind docker://ghcr.io/key4hep/key4hep-images/alma9:latest bash sim.sh
+
+cp out_RECO_edm4hep.root ../reco_${SAMPLE}_${JOBID}.root
