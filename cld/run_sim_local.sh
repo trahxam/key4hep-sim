@@ -50,7 +50,6 @@ cat card.cmd
 # k4run CLDReconstruction.py --inputFiles out_SIM.root --outputBasename out_RECO --num-events -1
 # " > sim.sh
 
-cp -r 
 
 echo "
 #!/bin/bash
