@@ -48,5 +48,5 @@ cat sim.sh
 singularity exec -B /cvmfs -B $dir_to_bind docker://ghcr.io/key4hep/key4hep-images/alma9:latest bash sim.sh
 
 # copy the output files to EOS
-xrdcp out_RECO_edm4hep.root root://eosuser.cern.ch/$EOSDIR/$TAG/reco_${SAMPLE}_${JOBID}.root
-
+# xrdcp out_RECO_edm4hep.root root://eosuser.cern.ch/$EOSDIR/$TAG/reco_${SAMPLE}_${JOBID}.root
+xrdcp out_RECO_edm4hep.root root://eosuser.cern.ch//eos/project/c/cern-openlab-coeraise/data/fcc/cld/$TAG/reco_${SAMPLE}_${JOBID}.root

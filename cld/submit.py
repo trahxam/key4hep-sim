@@ -11,9 +11,12 @@ def main(args):
         os.makedirs(f"condor/{args.tag}/logs")
 
     # create output directory on EOS
-    if not os.path.exists(f"/eos/user/f/fmokhtar/{args.tag}/"):
-        os.makedirs(f"/eos/user/f/fmokhtar/{args.tag}/")
+    # eosdir = "/eos/user/f/fmokhtar/"
+    eosdir = "/eos/project/c/cern-openlab-coeraise/data/fcc/cld"
 
+    if not os.path.exists(f"{eosdir}/{args.tag}/"):
+        os.makedirs(f"{eosdir}/{args.tag}/")
+        
     Nevents = args.Nevents
     Nevents_per_file = args.Nevents_per_file
 
