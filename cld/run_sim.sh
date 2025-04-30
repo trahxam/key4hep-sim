@@ -9,13 +9,13 @@ set -x
 env
 df -h
 
-export NEV=$1  # number of events to generate per rootfile
+export NEV=$1 # number of events to generate per rootfile
 export SAMPLE=$2 # main card
 export JOBID=$3 # random seed
 export TAG=$4 # output dir tag on EOS
 
 # alias for quick access of EOS directory to copy input/output files via xrootd
-export EOSDIR=/eos/user/f/fmokhtar/
+export EOSDIR=/eos/user/h/hart/
 
 mkdir CLDConfig_tmp
 dir_to_bind=$(realpath CLDConfig_tmp)
@@ -48,5 +48,4 @@ cat sim.sh
 singularity exec -B /cvmfs -B $dir_to_bind docker://ghcr.io/key4hep/key4hep-images/alma9:latest bash sim.sh
 
 # copy the output files to EOS
-# xrdcp out_RECO_edm4hep.root root://eosuser.cern.ch/$EOSDIR/$TAG/reco_${SAMPLE}_${JOBID}.root
-xrdcp out_RECO_edm4hep.root root://eosuser.cern.ch//eos/project/c/cern-openlab-coeraise/data/fcc/cld/$TAG/reco_${SAMPLE}_${JOBID}.root
+xrdcp out_RECO_edm4hep.root root://eosuser.cern.ch/$EOSDIR/reco_${SAMPLE}_${JOBID}_condor.root

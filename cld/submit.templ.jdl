@@ -3,13 +3,15 @@
 # Define the executable to run
 executable = ./run_sim.sh
 
+JOBID = $(ClusterId)_$(ProcId)
+
 # Arguments for the executable (if any)
-arguments = NEV SAMPLE JOBID TAG
+arguments = 1000 p8_ee_tt_ecm365 $(JOBID) CLD
 
 # Specify log, output, and error files for Condor to store job info
-log    = /afs/cern.ch/user/f/fmokhtar/key4hep-sim/cld/condor/TAG/logs/job_JOBID.log
-output = /afs/cern.ch/user/f/fmokhtar/key4hep-sim/cld/condor/TAG/logs/job_JOBID.out
-error  = /afs/cern.ch/user/f/fmokhtar/key4hep-sim/cld/condor/TAG/logs/job_JOBID.err
+log    = /afs/cern.ch/user/h/hart/key4hep-sim/cld/condor_jobs/job_$(JOBID).log
+output = /afs/cern.ch/user/h/hart/key4hep-sim/cld/condor_jobs/job_$(JOBID).out
+error  = /afs/cern.ch/user/h/hart/key4hep-sim/cld/condor_jobs/job_$(JOBID).err
 
 # Request resources (memory, CPUs, etc.)
 request_memory = 4 GB
@@ -17,7 +19,7 @@ request_cpus = 1
 
 WHEN_TO_TRANSFER_OUTPUT = ON_EXIT_OR_EVICT
 
-+JobFlavour = "workday"
++JobFlavour = "tomorrow"
 
 # If you want to run multiple jobs, set the job count
-queue
+queue 300
