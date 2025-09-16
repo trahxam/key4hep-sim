@@ -15,18 +15,20 @@ export JOBID=$3 # random seed
 export TAG=$4 # output dir tag on EOS
 
 # alias for quick access of EOS directory to copy input/output files via xrootd
-export EOSDIR=/eos/user/h/hart/cld_dumps/
+export EOSDIR=/eos/user/h/hart/cld_dumps
 
 mkdir CLDConfig_tmp
 dir_to_bind=$(realpath CLDConfig_tmp)
 cd $dir_to_bind
 
+export CONFIGDIR=/afs/cern.ch/user/h/hart/key4hep-sim/cld/CLDConfig/CLDConfig
+
 # copy large input files via xrootd (recommended)
-xrdcp root://eosuser.cern.ch/$EOSDIR/key4hep-sim/cld/CLDConfig/CLDConfig/${SAMPLE}.cmd card.cmd
-xrdcp root://eosuser.cern.ch/$EOSDIR/key4hep-sim/cld/CLDConfig/CLDConfig/pythia.py pythia.py
-xrdcp root://eosuser.cern.ch/$EOSDIR/key4hep-sim/cld/CLDConfig/CLDConfig/cld_steer.py cld_steer.py
-xrdcp root://eosuser.cern.ch/$EOSDIR/key4hep-sim/cld/CLDConfig/CLDConfig/CLDReconstruction.py CLDReconstruction.py
-xrdcp -r root://eosuser.cern.ch/$EOSDIR/key4hep-sim/cld/CLDConfig/CLDConfig/PandoraSettingsCLD .
+xrdcp ${CONFIGDIR}/${SAMPLE}.cmd card.cmd
+xrdcp ${CONFIGDIR}/pythia.py  pythia.py
+xrdcp ${CONFIGDIR}/cld_steer.py cld_steer.py
+xrdcp ${CONFIGDIR}/CLDReconstruction.py CLDReconstruction.py
+xrdcp -r ${CONFIGDIR}/PandoraSettingsCLD .
 
 # update the seed in the pythia card
 echo "Random:seed=${JOBID}" >> card.cmd
@@ -48,4 +50,4 @@ cat sim.sh
 singularity exec -B /cvmfs -B $dir_to_bind docker://ghcr.io/key4hep/key4hep-images/alma9:latest bash sim.sh
 
 # copy the output files to EOS
-xrdcp out_RECO_edm4hep.root root://eosuser.cern.ch/$EOSDIR/reco_${SAMPLE}_${JOBID}_condor.root
+xrdcp out_RECO_edm4hep.root root://eosuser.cern.ch/$OUTDIR/reco_${SAMPLE}_${JOBID}_condor.root
