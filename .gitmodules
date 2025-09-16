@@ -1,0 +1,3 @@
+[submodule "cld/CLDConfig"]
+	path = cld/CLDConfig
+	url = git@github.com:trahxam/CLDConfig.git
