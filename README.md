@@ -4,7 +4,10 @@
 
 Clone the repo with the config:
 
-```git clone --recurse-submodules https://github.com/trahxam/key4hep-sim.git```
+```
+git clone --recurse-submodules https://github.com/trahxam/key4hep-sim.git
+cd cld
+```
 
 Update the paths in `submit.templ.jdl` and `run_sim.sh`
 
