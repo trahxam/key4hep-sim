@@ -1,0 +1,4 @@
+*.cc
+*.out
+*.err
+*.log
