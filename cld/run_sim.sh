@@ -15,7 +15,7 @@ export JOBID=$3 # random seed
 export TAG=$4 # output dir tag on EOS
 
 # alias for quick access of EOS directory to copy input/output files via xrootd
-export EOSDIR=/eos/user/h/hart/cld_dumps
+export OUTDIR=/eos/user/h/hart/cld_dumps
 
 mkdir CLDConfig_tmp
 dir_to_bind=$(realpath CLDConfig_tmp)
