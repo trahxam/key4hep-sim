@@ -31,7 +31,8 @@ xrdcp ${CONFIGDIR}/CLDReconstruction.py CLDReconstruction.py
 xrdcp -r ${CONFIGDIR}/PandoraSettingsCLD .
 
 # update the seed in the pythia card
-echo "Random:seed=${JOBID}" >> card.cmd
+SEED=$(echo "${JOBID}" | cksum | awk '{print $1 % 900000000}')
+echo "Random:seed=${SEED}" >> card.cmd
 cat card.cmd
 
 echo "
