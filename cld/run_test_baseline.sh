@@ -23,7 +23,7 @@ cd $WORKDIR
 # Copy config (use baseline reco file)
 cp -R $CONFIG_DIR ./
 cp $CONFIG_DIR/CLDConfig/CLDReconstruction_baseline.py CLDConfig/CLDConfig/CLDReconstruction.py
-cp $CONFIG_DIR/pythia/${SAMPLE}.cmd card.cmd
+cp $CONFIG_DIR/CLDConfig/${SAMPLE}.cmd card.cmd
 echo "Random:seed=${SEED}" >> card.cmd
 
 # Prepare the gen-sim-reco script

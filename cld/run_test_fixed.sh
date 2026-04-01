@@ -22,7 +22,7 @@ cd $WORKDIR
 
 # Copy config (use modified reco file with InnerVXDExtend)
 cp -R $CONFIG_DIR ./
-cp $CONFIG_DIR/pythia/${SAMPLE}.cmd card.cmd
+cp $CONFIG_DIR/CLDConfig/${SAMPLE}.cmd card.cmd
 echo "Random:seed=${SEED}" >> card.cmd
 
 # Prepare the gen-sim-reco script
