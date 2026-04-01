@@ -2,11 +2,12 @@
  * Per-event per-algorithm timing for Gaudi/k4FWCore pipelines.
  *
  * EventTimingAuditor  - records wall-clock time around every algorithm execute()
- * EventTimingWriter   - collects the recorded times and writes them to a
- *                       ROOT TTree in a companion file (<basename>_timing.root)
+ * EventTimingWriter   - collects the recorded times and writes a "timing" TTree
  *
- * The TTree "timing" has one branch per algorithm (wall time in ms) plus an
- * "event" branch.  The mapping is also printed at INFO level.
+ * During execute(), timing data is written to a temporary ROOT file.
+ * At finalize() — which runs AFTER PodioOutput has closed the main file
+ * (Gaudi finalizes in reverse TopAlg order) — the timing TTree is merged
+ * into the main output file if MergeInto is set.
  *
  * Usage:  see --enableTimings flag in CLDReconstruction.py
  */
@@ -20,6 +21,7 @@
 #include "TTree.h"
 
 #include <chrono>
+#include <cstdio>
 #include <map>
 #include <memory>
 #include <string>
@@ -81,15 +83,15 @@ class EventTimingWriter : public Gaudi::Algorithm {
 public:
   EventTimingWriter(const std::string& name, ISvcLocator* svcLoc)
       : Gaudi::Algorithm(name, svcLoc) {
-    declareProperty("OutputFile", m_filename = "timing.root",
-                    "Output ROOT file for timing data");
+    declareProperty("OutputFile", m_filename = "timing_tmp.root",
+                    "Temporary ROOT file for timing data during execution");
+    declareProperty("MergeInto", m_mergeFile = "",
+                    "Main output ROOT file to merge timing TTree into at finalize. "
+                    "If empty, timing stays in OutputFile.");
   }
 
   StatusCode initialize() override {
-    auto sc = Gaudi::Algorithm::initialize();
-    if (!sc.isSuccess()) return sc;
-    // File is created lazily on the first event (once we know the algo order)
-    return StatusCode::SUCCESS;
+    return Gaudi::Algorithm::initialize();
   }
 
   StatusCode execute(const EventContext& /*ctx*/) const override {
@@ -114,10 +116,40 @@ public:
   }
 
   StatusCode finalize() override {
+    // Write and close the temporary timing file
     if (m_file) {
       m_file->cd();
       m_tree->Write();
       m_file->Close();
+      m_file.reset();
+    }
+
+    // Merge into main output file if requested
+    // EventTimingWriter must be AFTER PodioOutput in algList so that
+    // Gaudi finalizes it after PodioOutput has closed the file
+    bool merged = false;
+    if (!m_mergeFile.empty()) {
+      auto* src = TFile::Open(m_filename.c_str(), "READ");
+      if (src && !src->IsZombie()) {
+        auto* srcTree = src->Get<TTree>("timing");
+        if (srcTree) {
+          auto* dst = TFile::Open(m_mergeFile.c_str(), "UPDATE");
+          if (dst && !dst->IsZombie()) {
+            dst->cd();
+            auto* clone = srcTree->CloneTree();
+            clone->Write();
+            dst->Close();
+            merged = true;
+            info() << "Merged timing TTree into " << m_mergeFile << endmsg;
+          } else {
+            warning() << "Could not open " << m_mergeFile
+                      << " for UPDATE — timing kept in " << m_filename << endmsg;
+          }
+        }
+        src->Close();
+      }
+      if (merged) std::remove(m_filename.c_str());
+    } else {
       info() << "Wrote timing data to " << m_filename << endmsg;
     }
 
@@ -144,7 +176,6 @@ private:
     m_tree->Branch("event", &m_event_num, "event/I");
 
     for (size_t i = 0; i < s.algo_order.size(); ++i) {
-      // sanitise name for ROOT branch (replace spaces/special chars)
       std::string bname = s.algo_order[i];
       for (auto& c : bname) {
         if (!std::isalnum(c) && c != '_') c = '_';
@@ -155,6 +186,7 @@ private:
   }
 
   std::string m_filename;
+  std::string m_mergeFile;
   mutable std::unique_ptr<TFile> m_file;
   mutable TTree* m_tree = nullptr;        // owned by m_file
   mutable std::vector<double> m_values;

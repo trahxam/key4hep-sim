@@ -1,11 +1,11 @@
 """
 Analyse per-event per-algorithm timing from CLD reconstruction.
 
-Reads the TTree "timing" from the timing ROOT file produced by EventTimingWriter.
+Reads the TTree "timing" from the output ROOT file (merged by EventTimingWriter).
 Each branch is an algorithm name with wall-clock time in ms per event.
 
 Usage:
-    python analyse_timing.py reco_test_timing_timing.root [output.pdf]
+    python analyse_timing.py reco_test_timing.root [output.pdf]
 """
 import sys
 

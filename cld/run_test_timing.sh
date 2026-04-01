@@ -4,7 +4,7 @@ set -e
 set -x
 
 NEV=${NEV:-10}
-SAMPLE=p8_ee_Zuds_ecm91
+SAMPLE=${SAMPLE:-p8_ee_Zuds_ecm91}
 SEED=999001
 REPO_DIR=/afs/cern.ch/user/h/hart/cld/key4hep-sim/cld
 CONFIG_DIR=${REPO_DIR}/CLDConfig
@@ -64,6 +64,5 @@ export PYTHONPATH=$(pwd)/CLDConfig/CLDConfig:$PYTHONPATH
 bash sim.sh
 
 cp CLDConfig/CLDConfig/out_RECO_edm4hep.root $OUTDIR/reco_test_timing.root
-cp CLDConfig/CLDConfig/out_RECO_timing.root $OUTDIR/reco_test_timing_timing.root
 cp reco_timing.log $OUTDIR/reco_timing.log
 echo "=== TIMING TEST COMPLETE ==="
