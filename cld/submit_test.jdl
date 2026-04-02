@@ -1,0 +1,21 @@
+# Test job: 1 job, 5 events, to verify timing works on condor
+
+executable = ./run_sim.sh
+
+JOBID = test_timing_$(ClusterId)_$(ProcId)
+LOGDIR = /afs/cern.ch/user/h/hart/cld/key4hep-sim/cld/condor_jobs
+
+arguments = 5 p8_ee_Zuds_ecm91 $(JOBID) CLD
+
+log    = $(LOGDIR)/job_$(JOBID).log
+output = $(LOGDIR)/job_$(JOBID).out
+error  = $(LOGDIR)/job_$(JOBID).err
+
+request_memory = 4 GB
+request_cpus = 1
+
+WHEN_TO_TRANSFER_OUTPUT = ON_EXIT_OR_EVICT
+
++JobFlavour = "workday"
+
+queue 1
