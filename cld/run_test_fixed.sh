@@ -6,9 +6,9 @@ set -x
 NEV=${NEV:-10}
 SAMPLE=p8_ee_Zuds_ecm91
 SEED=999001
-CONFIG_DIR=/afs/cern.ch/user/h/hart/cld/key4hep-sim/cld/CLDConfig
+CONFIG_DIR=/afs/cern.ch/user/h/hart/key4hep-sim/cld/CLDConfig
 WORKDIR=/tmp/$USER/test_fixed_$$
-OUTDIR=/afs/cern.ch/user/h/hart/cld/key4hep-sim/cld
+OUTDIR=/afs/cern.ch/user/h/hart/key4hep-sim/cld
 
 mkdir -p $WORKDIR
 

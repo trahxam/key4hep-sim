@@ -6,7 +6,7 @@ set -x
 NEV=${NEV:-10}
 SAMPLE=${SAMPLE:-p8_ee_Zuds_ecm91}
 SEED=999001
-REPO_DIR=/afs/cern.ch/user/h/hart/cld/key4hep-sim/cld
+REPO_DIR=/afs/cern.ch/user/h/hart/key4hep-sim/cld
 CONFIG_DIR=${REPO_DIR}/CLDConfig
 TIMING_DIR=${REPO_DIR}/EventTiming
 WORKDIR=/tmp/$USER/test_timing_$$

@@ -21,8 +21,8 @@ mkdir CLDConfig_tmp
 dir_to_bind=$(realpath CLDConfig_tmp)
 cd $dir_to_bind
 
-export CONFIGDIR=/afs/cern.ch/user/h/hart/cld/key4hep-sim/cld/CLDConfig/CLDConfig
-export TIMINGDIR=/afs/cern.ch/user/h/hart/cld/key4hep-sim/cld/EventTiming
+export CONFIGDIR=/afs/cern.ch/user/h/hart/key4hep-sim/cld/CLDConfig/CLDConfig
+export TIMINGDIR=/afs/cern.ch/user/h/hart/key4hep-sim/cld/EventTiming
 
 # copy large input files via xrootd (recommended)
 xrdcp ${CONFIGDIR}/${SAMPLE}.cmd card.cmd
@@ -44,7 +44,7 @@ cat card.cmd
 echo "
 #!/bin/bash
 set -e
-source /cvmfs/sw.hsf.org/key4hep/setup.sh
+source /cvmfs/sw.hsf.org/key4hep/setup.sh -r 2026-04-08
 env
 
 # Build EventTiming plugin
@@ -53,7 +53,7 @@ export LD_LIBRARY_PATH=\$(pwd)/EventTiming_src/build:\$LD_LIBRARY_PATH
 export PYTHONPATH=\$(pwd)/EventTiming_src/build/genConfDir:\$PYTHONPATH
 
 k4run pythia.py -n $NEV --Dumper.Filename out.hepmc --Pythia8.PythiaInterface.pythiacard card.cmd
-ddsim -I out.hepmc -N -1 -O out_SIM.root --compactFile \$K4GEO/FCCee/CLD/compact/CLD_o2_v05/CLD_o2_v05.xml --steeringFile cld_steer.py
+ddsim -I out.hepmc -N -1 -O out_SIM.root --compactFile \$K4GEO/FCCee/CLD/compact/CLD_o2_v07/CLD_o2_v07.xml --steeringFile cld_steer.py
 k4run CLDReconstruction.py --inputFiles out_SIM.root --outputBasename out_RECO --num-events -1 --enableTimings
 " > sim.sh
 

@@ -3,7 +3,7 @@
 executable = ./run_sim.sh
 
 JOBID = test_timing_$(ClusterId)_$(ProcId)
-LOGDIR = /afs/cern.ch/user/h/hart/cld/key4hep-sim/cld/condor_jobs
+LOGDIR = /afs/cern.ch/user/h/hart/key4hep-sim/cld/condor_jobs
 
 arguments = 5 p8_ee_Zuds_ecm91 $(JOBID) CLD
 
